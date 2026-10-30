@@ -33,7 +33,7 @@
 
 </div>
 
-<div align="center">❦ ──────────────────────────────────────────────────────────────── ❦</div>
+<p align="center"><img src="assets/divider-rococo.svg" width="100%" alt=""></p>
 
 <br/>
 
@@ -52,7 +52,7 @@ Developed and tested on Linux with tmux 3.4.
 
 <br/>
 
-<div align="center">⋆ ──────────────────────────────────────────────────────────────── ⋆</div>
+<p align="center"><img src="assets/divider-floral.svg" width="100%" alt=""></p>
 
 <br/>
 
@@ -119,7 +119,7 @@ Labels appear when the foreground process is `docker exec`, `docker attach`, or 
 
 <br/>
 
-<div align="center">༺──────────────────────────────────────────────────────────────────༻</div>
+<p align="center"><img src="assets/divider-rococo.svg" width="100%" alt=""></p>
 
 <br/>
 
@@ -146,7 +146,7 @@ If spotatui is not installed, the popup displays a short message with install in
 
 <br/>
 
-<div align="center">❦ ──────────────────────────────────────────────────────────────── ❦</div>
+<p align="center"><img src="assets/divider-rococo.svg" width="100%" alt=""></p>
 
 <br/>
 
@@ -172,7 +172,7 @@ Pastel palette on a deep background, close to Catppuccin Mocha. All values are d
 
 <br/>
 
-<div align="center">⋆ ──────────────────────────────────────────────────────────────── ⋆</div>
+<p align="center"><img src="assets/divider-floral.svg" width="100%" alt=""></p>
 
 <br/>
 
@@ -194,7 +194,7 @@ Standard tmux bindings — <kbd>Prefix</kbd> + <kbd>"</kbd>, <kbd>Prefix</kbd> +
 
 <br/>
 
-<div align="center">༺──────────────────────────────────────────────────────────────────༻</div>
+<p align="center"><img src="assets/divider-rococo.svg" width="100%" alt=""></p>
 
 <br/>
 
@@ -227,9 +227,16 @@ Or, from inside a tmux session: <kbd>Prefix</kbd> + <kbd>r</kbd>.
 │   ├── pane-container.sh      standalone Docker detection utility
 │   └── spotify-popup.sh       spotatui launcher with install check
 ├── assets/
+│   ├── divider-rococo.svg
+│   ├── divider-floral.svg
+│   ├── divider-small.svg
 │   └── tmux-preview.png       (add a terminal screenshot here)
 └── README.md
 ```
+
+<br/>
+
+<p align="center"><img src="assets/divider-small.svg" width="100%" alt=""></p>
 
 <br/>
 
@@ -248,7 +255,7 @@ Or, from inside a tmux session: <kbd>Prefix</kbd> + <kbd>r</kbd>.
 |---|---|
 | `nmcli` | NET and VPN fields in the status bar (NetworkManager) |
 | `docker` | Docker context label in pane borders |
-| `ssh` | SSH context label in pane borders |
+| `ssh` | Pane border SSH context label |
 | `spotatui` | Spotify TUI — required for <kbd>Prefix</kbd> + <kbd>s</kbd> |
 | `cargo` (Rust) | To install spotatui: `cargo install spotatui` |
 
@@ -256,7 +263,7 @@ All optional dependencies degrade gracefully: NET and VPN fall back to `OFF`, co
 
 <br/>
 
-<div align="center">❦ ──────────────────────────────────────────────────────────────── ❦</div>
+<p align="center"><img src="assets/divider-small.svg" width="100%" alt=""></p>
 
 <br/>
 
@@ -322,7 +329,7 @@ Line 2 (`status-format[1]`) contains inline shell commands evaluated by tmux at 
 
 <br/>
 
-<div align="center">༺──────────────────────────────────────────────────────────────────༻</div>
+<p align="center"><img src="assets/divider-rococo.svg" width="100%" alt=""></p>
 
 <br/>
 

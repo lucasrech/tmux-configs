@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 60" width="100%" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <!-- Full-width line with center gap and edge fade -->
+    <linearGradient id="fl-ll" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#585b70" stop-opacity="0"/>
+      <stop offset="30%"  stop-color="#585b70" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#585b70" stop-opacity="0.45"/>
+    </linearGradient>
+    <linearGradient id="fl-rl" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#585b70" stop-opacity="0.45"/>
+      <stop offset="70%"  stop-color="#585b70" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#585b70" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ── BACKGROUND LINES (two halves, gap at center for flower) ── -->
+  <line x1="0"   y1="30" x2="385" y2="30" stroke="url(#fl-ll)" stroke-width="0.5"/>
+  <line x1="415" y1="30" x2="800" y2="30" stroke="url(#fl-rl)" stroke-width="0.5"/>
+
+  <!-- ── CENTRAL FLOWER (4 petals + center) ── -->
+  <!-- Vertical petal (up) -->
+  <path d="M 400,18 C 403,21 403,27 400,30 C 397,27 397,21 400,18"
+        stroke="#f5c2e7" stroke-width="0.8" fill="#f5c2e7" fill-opacity="0.13"/>
+  <!-- Vertical petal (down) -->
+  <path d="M 400,42 C 403,39 403,33 400,30 C 397,33 397,39 400,42"
+        stroke="#f5c2e7" stroke-width="0.8" fill="#f5c2e7" fill-opacity="0.13"/>
+  <!-- Horizontal petal (left) -->
+  <path d="M 388,30 C 391,27 397,27 400,30 C 397,33 391,33 388,30"
+        stroke="#89dceb" stroke-width="0.8" fill="#89dceb" fill-opacity="0.13"/>
+  <!-- Horizontal petal (right) -->
+  <path d="M 412,30 C 409,27 403,27 400,30 C 403,33 409,33 412,30"
+        stroke="#89dceb" stroke-width="0.8" fill="#89dceb" fill-opacity="0.13"/>
+  <!-- Center circle -->
+  <circle cx="400" cy="30" r="3.2" fill="#b4befe"/>
+  <circle cx="400" cy="30" r="1.6" fill="none" stroke="#89dceb" stroke-width="0.65"/>
+  <circle cx="400" cy="30" r="0.8" fill="#1e1e2e"/>
+
+  <!-- ── MEDIUM PETALS at ±50 ── -->
+  <!-- Left (x=350) -->
+  <path d="M 350,23 C 353,25 353,35 350,37 C 347,35 347,25 350,23"
+        stroke="#b4befe" stroke-width="0.7" fill="#b4befe" fill-opacity="0.09"/>
+  <circle cx="350" cy="30" r="1.6" fill="#b4befe" fill-opacity="0.65"/>
+  <!-- Right (x=450) -->
+  <path d="M 450,23 C 453,25 453,35 450,37 C 447,35 447,25 450,23"
+        stroke="#b4befe" stroke-width="0.7" fill="#b4befe" fill-opacity="0.09"/>
+  <circle cx="450" cy="30" r="1.6" fill="#b4befe" fill-opacity="0.65"/>
+
+  <!-- ── SMALL-MEDIUM PETALS at ±100 ── -->
+  <!-- Left (x=300) -->
+  <path d="M 300,25 C 302,27 302,33 300,35 C 298,33 298,27 300,25"
+        stroke="#89dceb" stroke-width="0.6" fill="#89dceb" fill-opacity="0.08"/>
+  <circle cx="300" cy="30" r="1.2" fill="#89dceb" fill-opacity="0.55"/>
+  <!-- Right (x=500) -->
+  <path d="M 500,25 C 502,27 502,33 500,35 C 498,33 498,27 500,25"
+        stroke="#89dceb" stroke-width="0.6" fill="#89dceb" fill-opacity="0.08"/>
+  <circle cx="500" cy="30" r="1.2" fill="#89dceb" fill-opacity="0.55"/>
+
+  <!-- ── SMALL PETALS at ±155 ── -->
+  <!-- Left (x=245) -->
+  <path d="M 245,27 C 246,28 246,32 245,33 C 244,32 244,28 245,27"
+        stroke="#89b4fa" stroke-width="0.55" fill="#89b4fa" fill-opacity="0.07"/>
+  <circle cx="245" cy="30" r="1"  fill="#89b4fa" fill-opacity="0.5"/>
+  <!-- Right (x=555) -->
+  <path d="M 555,27 C 556,28 556,32 555,33 C 554,32 554,28 555,27"
+        stroke="#89b4fa" stroke-width="0.55" fill="#89b4fa" fill-opacity="0.07"/>
+  <circle cx="555" cy="30" r="1"  fill="#89b4fa" fill-opacity="0.5"/>
+
+  <!-- ── DISTANT ACCENT DOTS ── -->
+  <circle cx="195" cy="30" r="1.5" fill="none" stroke="#585b70" stroke-width="0.5" stroke-opacity="0.55"/>
+  <circle cx="179" cy="30" r="0.9" fill="#585b70" fill-opacity="0.4"/>
+  <circle cx="605" cy="30" r="1.5" fill="none" stroke="#585b70" stroke-width="0.5" stroke-opacity="0.55"/>
+  <circle cx="621" cy="30" r="0.9" fill="#585b70" fill-opacity="0.4"/>
+</svg>

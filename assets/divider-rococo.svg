@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 80" width="100%" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <!-- Left horizontal line: transparent → solid -->
+    <linearGradient id="roc-ll" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#585b70" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#585b70" stop-opacity="0.65"/>
+    </linearGradient>
+    <!-- Right horizontal line: solid → transparent -->
+    <linearGradient id="roc-rl" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#585b70" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#585b70" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ── LEFT HORIZONTAL LINE ── -->
+  <line x1="0" y1="40" x2="238" y2="40"
+        stroke="url(#roc-ll)" stroke-width="0.55"/>
+
+  <!-- ── LEFT SCROLL ARM ── (S-curve arching above centerline) -->
+  <!-- From x=238,y=40 → arch peaks ≈ y=14 at x≈308 → returns to x=374,y=40 -->
+  <path d="M 238,40 C 255,40 268,22 284,18 S 316,18 332,22 C 345,27 360,36 374,40"
+        stroke="#b4befe" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+  <!-- ── LEFT LOWER REFLECTION ── (very faint echo below centerline) -->
+  <path d="M 238,40 C 255,40 268,58 284,62 S 316,62 332,58 C 345,53 360,44 374,40"
+        stroke="#b4befe" stroke-width="0.4" fill="none" stroke-linecap="round"
+        stroke-opacity="0.18"/>
+
+  <!-- ── LEFT BAROQUE CURL ── (small volute above the arch, near peak) -->
+  <!-- Teardrop loop: start at (288,17), swing left, return -->
+  <path d="M 288,17 C 284,10 278,8 276,12 C 274,16 278,20 285,17"
+        stroke="#89b4fa" stroke-width="0.85" fill="none" stroke-linecap="round"/>
+
+  <!-- ── LEFT LEAF ── (almond-shaped, near arch peak) -->
+  <path d="M 304,17 C 300,12 294,13 296,19 C 298,24 306,22 304,17"
+        stroke="#89b4fa" stroke-width="0.65" fill="#89b4fa" fill-opacity="0.09"/>
+
+  <!-- ── LEFT ACCENT DOTS ── -->
+  <circle cx="218" cy="40" r="2.2"  fill="none" stroke="#b4befe" stroke-width="0.8"/>
+  <circle cx="202" cy="40" r="1.5"  fill="#b4befe" fill-opacity="0.5"/>
+  <circle cx="189" cy="40" r="1"    fill="#585b70" fill-opacity="0.55"/>
+  <circle cx="178" cy="40" r="0.75" fill="#585b70" fill-opacity="0.4"/>
+
+  <!-- ── RIGHT HORIZONTAL LINE ── -->
+  <line x1="562" y1="40" x2="800" y2="40"
+        stroke="url(#roc-rl)" stroke-width="0.55"/>
+
+  <!-- ── RIGHT SCROLL ARM ── (exact mirror: x → 800-x) -->
+  <path d="M 562,40 C 545,40 532,22 516,18 S 484,18 468,22 C 455,27 440,36 426,40"
+        stroke="#b4befe" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+  <!-- ── RIGHT LOWER REFLECTION ── -->
+  <path d="M 562,40 C 545,40 532,58 516,62 S 484,62 468,58 C 455,53 440,44 426,40"
+        stroke="#b4befe" stroke-width="0.4" fill="none" stroke-linecap="round"
+        stroke-opacity="0.18"/>
+
+  <!-- ── RIGHT BAROQUE CURL ── -->
+  <path d="M 512,17 C 516,10 522,8 524,12 C 526,16 522,20 515,17"
+        stroke="#89b4fa" stroke-width="0.85" fill="none" stroke-linecap="round"/>
+
+  <!-- ── RIGHT LEAF ── -->
+  <path d="M 496,17 C 500,12 506,13 504,19 C 502,24 494,22 496,17"
+        stroke="#89b4fa" stroke-width="0.65" fill="#89b4fa" fill-opacity="0.09"/>
+
+  <!-- ── RIGHT ACCENT DOTS ── -->
+  <circle cx="582" cy="40" r="2.2"  fill="none" stroke="#b4befe" stroke-width="0.8"/>
+  <circle cx="598" cy="40" r="1.5"  fill="#b4befe" fill-opacity="0.5"/>
+  <circle cx="611" cy="40" r="1"    fill="#585b70" fill-opacity="0.55"/>
+  <circle cx="622" cy="40" r="0.75" fill="#585b70" fill-opacity="0.4"/>
+
+  <!-- ── CONNECTORS ── (scroll arm end → diamond lateral tip) -->
+  <line x1="374" y1="40" x2="382" y2="40" stroke="#b4befe" stroke-width="1.2"/>
+  <line x1="418" y1="40" x2="426" y2="40" stroke="#b4befe" stroke-width="1.2"/>
+
+  <!-- ── CENTRAL DIAMOND ── outer frame -->
+  <!-- Tips: top=(400,20), right=(420,40), bottom=(400,60), left=(380,40) -->
+  <path d="M 400,20 L 420,40 L 400,60 L 380,40 Z"
+        stroke="#b4befe" stroke-width="1.5" fill="none"/>
+
+  <!-- ── CENTRAL DIAMOND ── inner frame -->
+  <!-- Tips: top=(400,28), right=(411,40), bottom=(400,52), left=(389,40) -->
+  <path d="M 400,28 L 411,40 L 400,52 L 389,40 Z"
+        stroke="#89dceb" stroke-width="0.8" fill="none"/>
+
+  <!-- ── CENTER CIRCLE ── layered for depth -->
+  <circle cx="400" cy="40" r="4.5" fill="#b4befe"/>
+  <circle cx="400" cy="40" r="2.8" fill="none" stroke="#89dceb" stroke-width="0.75"/>
+  <circle cx="400" cy="40" r="1.3" fill="#1e1e2e"/>
+
+  <!-- ── DIAMOND TIP ACCENTS ── -->
+  <circle cx="400" cy="18"  r="2.5" fill="#f5c2e7"/>
+  <circle cx="400" cy="62"  r="2.5" fill="#f5c2e7"/>
+  <circle cx="378" cy="40"  r="2"   fill="#89b4fa"/>
+  <circle cx="422" cy="40"  r="2"   fill="#89b4fa"/>
+
+  <!-- ── SUBTLE CROSS-HATCH at diamond midpoints ── -->
+  <line x1="393" y1="25" x2="407" y2="25"
+        stroke="#b4befe" stroke-width="0.45" stroke-opacity="0.35"/>
+  <line x1="393" y1="55" x2="407" y2="55"
+        stroke="#b4befe" stroke-width="0.45" stroke-opacity="0.35"/>
+</svg>
