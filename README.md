@@ -6,7 +6,7 @@
 
 <p>
 <em>A pastel-dark terminal environment for Linux.</em><br/>
-<sub>Contextual pane borders &nbsp;·&nbsp; dual-line system telemetry &nbsp;·&nbsp; integrated Spotify popup</sub>
+<sub>Contextual pane borders &nbsp;·&nbsp; dual-line system telemetry &nbsp;·&nbsp; integrated Spotify pane</sub>
 </p>
 
 <br/>
@@ -45,7 +45,7 @@ Built around four convictions:
 
 - **Context without ceremony** — Docker containers and SSH sessions surface automatically in the pane border, read from the TTY process list. No shell integration, no plugins.
 - **System state at rest** — two status bar lines show active network interfaces, VPN connections, memory usage and load average, updated every two seconds.
-- **No layout disruption** — the Spotify popup uses `display-popup`, which layers over the current window as a floating overlay. Closing it returns you to exactly where you were.
+- **No layout disruption** — the Spotify pane opens as a non-modal side split. It runs alongside your workspace without blocking other panes or windows.
 - **Keyboard-first, mouse-optional** — Vim-style navigation and resize, vi copy mode, and splits that inherit the current path. Mouse enabled for when you want it.
 
 Developed and tested on Linux with tmux 3.4.
@@ -62,7 +62,7 @@ Developed and tested on Linux with tmux 3.4.
 |:---:|---|---|
 | ❖ | **Pane Context** | Docker and SSH detection via TTY process inspection |
 | ✦ | **Status Bar** | Two-line bar: session/windows above, telemetry below |
-| ❦ | **Spotify Popup** | spotatui in a floating overlay, <kbd>Prefix</kbd>&nbsp;+&nbsp;<kbd>s</kbd> |
+| ❦ | **Spotify Pane** | spotatui singleton side-pane, <kbd>Prefix</kbd>&nbsp;+&nbsp;<kbd>s</kbd> |
 | ⟡ | **Navigation** | Vim-style pane movement and resize |
 | ✾ | **True Color** | RGB support via `terminal-features` |
 | ❧ | **Path Inheritance** | Splits and new windows open at the current path |
@@ -104,6 +104,7 @@ Labels appear when the foreground process is `docker exec`, `docker attach`, or 
 | VPN | `nmcli` — active vpn/wireguard connections | `OFF` |
 | RAM | `free -h` — used / total | — |
 | LOAD | `/proc/loadavg` — 1-minute average | — |
+| ♪ Track | `playerctl` via MPRIS — current spotatui track | hidden |
 | Clock | `%d/%m/%Y` and `%H:%M` | — |
 
 <br/>
@@ -125,24 +126,40 @@ Labels appear when the foreground process is `docker exec`, `docker attach`, or 
 
 ## ❖ &nbsp; Spotify Integration
 
-<kbd>Prefix</kbd> + <kbd>s</kbd> opens **spotatui** in a floating popup anchored to the upper-right corner of the current window. The existing layout — every pane, every split — is left entirely intact.
+<kbd>Prefix</kbd> + <kbd>s</kbd> opens **spotatui** in a right-side pane (35 % of window width). The rest of the window remains fully interactive — other panes are never blocked.
 
 ```
 ╔═════════════════════════════════════════════════════════════════╗
-║                                    ╭─────────────────────╮     ║
-║                                    │  ✦  spotatui  ✦    │     ║
-║                                    │                     │     ║
-║        current workspace           │   now playing       │     ║
-║                                    │   album art         │     ║
-║                                    │   ◀  ▐▐  ▶  ●──○  │     ║
-║                                    │                     │     ║
-║                                    ╰─────────────────────╯     ║
+║                                    │  ✦  spotatui  ✦    ║     ║
+║                                    │                     ║     ║
+║        current workspace           │   now playing       ║     ║
+║                                    │   album art         ║     ║
+║                                    │   ◀  ▐▐  ▶  ●──○  ║     ║
+║                                    │                     ║     ║
 ╚═════════════════════════════════════════════════════════════════╝
 ```
 
-The popup is **45 % wide** and **60 % tall**, positioned at the right edge and top of the window (`-x R -y 0`). Quitting spotatui closes the overlay immediately.
+**Singleton**: pressing <kbd>Prefix</kbd> + <kbd>s</kbd> while spotatui is already open switches focus to the existing pane rather than opening a second instance. This prevents the 404/410 native playback errors that arise when multiple instances register competing `device_id`s with the Spotify API.
 
-If spotatui is not installed, the popup displays a short message with install instructions rather than failing silently.
+**Closing**: press <kbd>q</kbd> inside spotatui to exit — the pane closes automatically.
+
+**Media controls** (require `playerctl` — `sudo apt install playerctl`):
+
+| Shortcut | Action |
+|---|---|
+| <kbd>Prefix</kbd> + <kbd>B</kbd> | Previous track |
+| <kbd>Prefix</kbd> + <kbd>P</kbd> | Play / Pause |
+| <kbd>Prefix</kbd> + <kbd>N</kbd> | Next track |
+
+**Status bar**: when spotatui is playing, the current track appears in status bar line 2:
+
+```
+NET eno1 | VPN OFF | RAM 3.1G/16G | LOAD 0.42 | ♪ Artist - Title
+```
+
+Track info is drawn via MPRIS/playerctl and hidden when nothing is playing. Truncated at 40 characters.
+
+If spotatui is not installed, <kbd>Prefix</kbd> + <kbd>s</kbd> displays a message rather than failing silently.
 
 <br/>
 
@@ -188,7 +205,10 @@ Prefix: <kbd>Ctrl</kbd> + <kbd>b</kbd>
 | <kbd>Prefix</kbd> + <kbd>h</kbd> / <kbd>j</kbd> / <kbd>k</kbd> / <kbd>l</kbd> | Navigate panes |
 | <kbd>Prefix</kbd> + <kbd>H</kbd> / <kbd>J</kbd> / <kbd>K</kbd> / <kbd>L</kbd> | Resize panes (5 cells) |
 | <kbd>Prefix</kbd> + <kbd>r</kbd> | Reload configuration |
-| <kbd>Prefix</kbd> + <kbd>s</kbd> | Open Spotify popup |
+| <kbd>Prefix</kbd> + <kbd>s</kbd> | Open / focus Spotify pane |
+| <kbd>Prefix</kbd> + <kbd>B</kbd> | Spotify: previous track |
+| <kbd>Prefix</kbd> + <kbd>P</kbd> | Spotify: play / pause |
+| <kbd>Prefix</kbd> + <kbd>N</kbd> | Spotify: next track |
 
 Standard tmux bindings — <kbd>Prefix</kbd> + <kbd>"</kbd>, <kbd>Prefix</kbd> + <kbd>%</kbd>, mouse, copy mode — remain unchanged.
 
@@ -225,7 +245,8 @@ Or, from inside a tmux session: <kbd>Prefix</kbd> + <kbd>r</kbd>.
 ├── scripts/
 │   ├── pane-context.sh        Docker + SSH detection for pane borders
 │   ├── pane-container.sh      standalone Docker detection utility
-│   └── spotify-popup.sh       spotatui launcher with install check
+│   ├── spotify-launch.sh      singleton pane manager (Prefix+s)
+│   └── status-spotify.sh      MPRIS track info for status bar line 2
 ├── assets/
 │   ├── divider-rococo.svg
 │   ├── divider-floral.svg
@@ -246,7 +267,7 @@ Or, from inside a tmux session: <kbd>Prefix</kbd> + <kbd>r</kbd>.
 
 | Dependency | Purpose |
 |---|---|
-| `tmux` ≥ 3.2 | `display-popup` with positional flags (`-x R -y 0`) |
+| `tmux` ≥ 3.0 | pane user options (`set-option -p @name`) for singleton tracking |
 | `bash` | All scripts target `/usr/bin/env bash` |
 
 ### Optional
@@ -258,8 +279,9 @@ Or, from inside a tmux session: <kbd>Prefix</kbd> + <kbd>r</kbd>.
 | `ssh` | Pane border SSH context label |
 | `spotatui` | Spotify TUI — required for <kbd>Prefix</kbd> + <kbd>s</kbd> |
 | `cargo` (Rust) | To install spotatui: `cargo install spotatui` |
+| `playerctl` | Media controls and status bar track info — `sudo apt install playerctl` |
 
-All optional dependencies degrade gracefully: NET and VPN fall back to `OFF`, context labels simply do not appear, and the Spotify popup shows an install hint.
+All optional dependencies degrade gracefully: NET and VPN fall back to `OFF`, context labels do not appear, the Spotify pane shows an install hint, and track info is simply hidden when playerctl is absent.
 
 <br/>
 
@@ -293,24 +315,19 @@ The output is embedded directly in `pane-border-format` and polled at each `stat
 
 Line 2 (`status-format[1]`) contains inline shell commands evaluated by tmux at each refresh. No external scripts, no daemons: just `nmcli`, `free -h`, and a read from `/proc/loadavg`, run in-process every 2 seconds.
 
-### Spotify popup
+### Spotify pane
 
-`display-popup -E` launches the command in a floating overlay that is entirely separate from the window's pane tree. When the process exits, the overlay is removed and the terminal state is restored exactly. The flags `-x R -y 0` position the popup flush to the right edge, at the top of the window.
+`spotify-launch.sh` is called via `run-shell` on `Prefix+s`. It queries `list-panes -s` for a pane tagged with the tmux user option `@pane_role=spotify`. If found, it calls `select-pane` on it (idempotent). If not, it creates a new pane with `split-window -h -l 35%`, captures the pane ID via `-P -F "#{pane_id}"`, and sets `@pane_role spotify` on it. When spotatui exits (`q`), the pane closes and the user option disappears — no cleanup needed.
+
+`status-spotify.sh` calls `playerctl -p spotatui metadata --format '{{status}}|{{artist}} - {{title}}'` in a single invocation. Output is empty when playerctl is absent, spotatui is not running, or playback is stopped. The resulting string includes tmux color directives (`#[fg=color]`) which the status-format parser processes inline.
 
 <br/>
 
 ## ❧ &nbsp; Customization
 
-**Spotify popup dimensions and position** — SPOTIFY section in `tmux.conf`:
+**Spotify pane width** — `split-window -h -l 35%` in `spotify-launch.sh`. Change `35%` to any value.
 
-```
--w 45%   width, relative to window
--h 60%   height, relative to window
--x R     anchored to right edge
--y 0     anchored to top
-```
-
-**Status bar refresh rate** — `set -g status-interval` (default: `2`).
+**Status bar refresh rate** — `set -g status-interval` (default: `2`). Affects how often the track name updates.
 
 **Pane border** — `pane-border-format` in `tmux.conf`. The context script call can be replaced or extended with additional detectors.
 
