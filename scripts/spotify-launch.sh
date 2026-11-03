@@ -5,8 +5,10 @@
 #   - If a spotatui pane already exists in the session → switch to it
 #   - Otherwise → create a right-side split and start spotatui there
 #
-# The pane is tagged with @pane_role=spotify so it can be located
-# without relying on pgrep (which would match external instances).
+# Two-step launch to avoid race condition with set-option -p:
+#   1. Create pane with default shell (long-lived → no race)
+#   2. Tag the pane while shell is alive (guaranteed to succeed)
+#   3. Launch spotatui via send-keys (exec replaces shell → pane closes on exit)
 
 if ! command -v spotatui &>/dev/null; then
     tmux display-message "spotatui não está instalado"
@@ -15,7 +17,6 @@ fi
 
 SESSION=$(tmux display-message -p "#{session_name}")
 
-# Look for an existing spotify pane in the current session
 SPOTIFY_PANE=$(
     tmux list-panes -s -t "$SESSION" \
         -F "#{pane_id} #{@pane_role}" 2>/dev/null \
@@ -23,25 +24,22 @@ SPOTIFY_PANE=$(
 )
 
 if [ -n "$SPOTIFY_PANE" ]; then
-    # Already running — focus it, do not start another instance
     tmux select-pane -t "$SPOTIFY_PANE"
     exit 0
 fi
 
-# Create a horizontal split (right side, 35% of window width).
-# exec spotatui: pane closes automatically when spotatui exits (q).
-# -P -F prints the new pane ID for tagging.
-PANE_ID=$(
-    tmux split-window -h -l 35% \
-        -P -F "#{pane_id}" \
-        "exec spotatui" 2>/dev/null
-)
+# Create pane with default shell — shell stays alive so set-option wins the race
+PANE_ID=$(tmux split-window -h -l 35% -P -F "#{pane_id}" 2>/dev/null)
 
 if [ -z "$PANE_ID" ]; then
-    tmux display-message "Erro ao criar pane do Spotify"
+    tmux display-message "Erro ao criar pane Spotify"
     exit 1
 fi
 
-# Tag the pane with a user option (tmux 3.0+).
-# This tag disappears when the pane closes — no stale state.
+# Tag while shell is alive (no race condition)
 tmux set-option -p -t "$PANE_ID" @pane_role spotify
+
+# Replace shell with spotatui — pane closes automatically when spotatui exits
+tmux send-keys -t "$PANE_ID" "exec ~/.config/tmux/scripts/spotify-pane.sh" Enter
+
+exit 0
