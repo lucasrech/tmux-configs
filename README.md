@@ -33,7 +33,7 @@
 
 </div>
 
-<p align="center"><img src="assets/divider-rococo.svg" width="100%" alt=""></p>
+<!-- <p align="center"><img src="assets/divider-rococo.svg" width="100%" alt=""></p> -->
 
 <br/>
 
@@ -52,7 +52,7 @@ Developed and tested on Linux with tmux 3.4.
 
 <br/>
 
-<p align="center"><img src="assets/divider-floral.svg" width="100%" alt=""></p>
+<!-- <p align="center"><img src="assets/divider-floral.svg" width="100%" alt=""></p> -->
 
 <br/>
 
@@ -119,7 +119,7 @@ Labels appear when the foreground process is `docker exec`, `docker attach`, or 
 
 <br/>
 
-<p align="center"><img src="assets/divider-rococo.svg" width="100%" alt=""></p>
+<!-- <p align="center"><img src="assets/divider-rococo.svg" width="100%" alt=""></p> -->
 
 <br/>
 
@@ -146,7 +146,7 @@ If spotatui is not installed, the popup displays a short message with install in
 
 <br/>
 
-<p align="center"><img src="assets/divider-rococo.svg" width="100%" alt=""></p>
+<!-- <p align="center"><img src="assets/divider-rococo.svg" width="100%" alt=""></p> -->
 
 <br/>
 
@@ -172,7 +172,7 @@ Pastel palette on a deep background, close to Catppuccin Mocha. All values are d
 
 <br/>
 
-<p align="center"><img src="assets/divider-floral.svg" width="100%" alt=""></p>
+<!-- <p align="center"><img src="assets/divider-floral.svg" width="100%" alt=""></p> -->
 
 <br/>
 
@@ -194,7 +194,7 @@ Standard tmux bindings — <kbd>Prefix</kbd> + <kbd>"</kbd>, <kbd>Prefix</kbd> +
 
 <br/>
 
-<p align="center"><img src="assets/divider-rococo.svg" width="100%" alt=""></p>
+<!-- <p align="center"><img src="assets/divider-rococo.svg" width="100%" alt=""></p> -->
 
 <br/>
 
@@ -236,7 +236,7 @@ Or, from inside a tmux session: <kbd>Prefix</kbd> + <kbd>r</kbd>.
 
 <br/>
 
-<p align="center"><img src="assets/divider-small.svg" width="100%" alt=""></p>
+<!-- <p align="center"><img src="assets/divider-small.svg" width="100%" alt=""></p> -->
 
 <br/>
 
@@ -263,7 +263,7 @@ All optional dependencies degrade gracefully: NET and VPN fall back to `OFF`, co
 
 <br/>
 
-<p align="center"><img src="assets/divider-small.svg" width="100%" alt=""></p>
+<!-- <p align="center"><img src="assets/divider-small.svg" width="100%" alt=""></p> -->
 
 <br/>
 
@@ -329,7 +329,7 @@ Line 2 (`status-format[1]`) contains inline shell commands evaluated by tmux at 
 
 <br/>
 
-<p align="center"><img src="assets/divider-rococo.svg" width="100%" alt=""></p>
+<!-- <p align="center"><img src="assets/divider-rococo.svg" width="100%" alt=""></p> -->
 
 <br/>
 
