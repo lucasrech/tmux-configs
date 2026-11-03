@@ -44,7 +44,7 @@ This is not a stock `.tmux.conf`. Every part of the visible interface was delibe
 Built around four convictions:
 
 - **Context without ceremony** — Docker containers and SSH sessions surface automatically in the pane border, read from the TTY process list. No shell integration, no plugins.
-- **System state at rest** — two status bar lines show active network interfaces, VPN connections, memory usage and load average, updated every two seconds.
+- **System state at rest** — two status bar lines show active network interfaces, VPN connections, memory usage, load average, and current Spotify track, updated every second.
 - **No layout disruption** — the Spotify pane opens as a non-modal side split. It runs alongside your workspace without blocking other panes or windows.
 - **Keyboard-first, mouse-optional** — Vim-style navigation and resize, vi copy mode, and splits that inherit the current path. Mouse enabled for when you want it.
 
@@ -104,7 +104,7 @@ Labels appear when the foreground process is `docker exec`, `docker attach`, or 
 | VPN | `nmcli` — active vpn/wireguard connections | `OFF` |
 | RAM | `free -h` — used / total | — |
 | LOAD | `/proc/loadavg` — 1-minute average | — |
-| ♪ Track | `playerctl` via MPRIS — current spotatui track | hidden |
+| ♪ Track | `playerctl` via MPRIS — current track (always visible) | `● Spotify — Offline` |
 | Clock | `%d/%m/%Y` and `%H:%M` | — |
 
 <br/>
@@ -143,7 +143,7 @@ Labels appear when the foreground process is `docker exec`, `docker attach`, or 
 
 **Closing**: press <kbd>q</kbd> inside spotatui to exit — the pane closes automatically.
 
-**Media controls** (require `playerctl` — `sudo apt install playerctl`):
+**Media controls** via MPRIS/playerctl — work even when the Spotify pane is closed:
 
 | Shortcut | Action |
 |---|---|
@@ -151,13 +151,16 @@ Labels appear when the foreground process is `docker exec`, `docker attach`, or 
 | <kbd>Prefix</kbd> + <kbd>P</kbd> | Play / Pause |
 | <kbd>Prefix</kbd> + <kbd>N</kbd> | Next track |
 
-**Status bar**: when spotatui is playing, the current track appears in status bar line 2:
+**Status bar**: the Spotify segment is always present in status bar line 2, regardless of whether the pane is open. Source is MPRIS/playerctl — no Spotify API calls, no pane dependency.
 
 ```
-NET eno1 | VPN OFF | RAM 3.1G/16G | LOAD 0.42 | ♪ Artist - Title
+| ▶ Artist — Title              (playing)
+| ⏸ Artist — Title              (paused)
+| ● Spotify — Idle              (stopped, player open)
+| ● Spotify — Offline           (no player found)
 ```
 
-Track info is drawn via MPRIS/playerctl and hidden when nothing is playing. Truncated at 40 characters.
+Priority: `spotatui` → Spotify Desktop → others. For long track names, the text scrolls as a marquee (1 char/second, epoch-based offset — smooth across refreshes). Requires `playerctl`: `sudo apt install playerctl`.
 
 If spotatui is not installed, <kbd>Prefix</kbd> + <kbd>s</kbd> displays a message rather than failing silently.
 
@@ -279,9 +282,9 @@ Or, from inside a tmux session: <kbd>Prefix</kbd> + <kbd>r</kbd>.
 | `ssh` | Pane border SSH context label |
 | `spotatui` | Spotify TUI — required for <kbd>Prefix</kbd> + <kbd>s</kbd> |
 | `cargo` (Rust) | To install spotatui: `cargo install spotatui` |
-| `playerctl` | Media controls and status bar track info — `sudo apt install playerctl` |
+| `playerctl` | Media controls and always-visible Spotify segment — `sudo apt install playerctl` |
 
-All optional dependencies degrade gracefully: NET and VPN fall back to `OFF`, context labels do not appear, the Spotify pane shows an install hint, and track info is simply hidden when playerctl is absent.
+All optional dependencies degrade gracefully: NET and VPN fall back to `OFF`, context labels do not appear, the Spotify pane shows an install hint. Without playerctl, the status bar shows `● Spotify — Offline` instead of the current track.
 
 <br/>
 
@@ -319,7 +322,7 @@ Line 2 (`status-format[1]`) contains inline shell commands evaluated by tmux at 
 
 `spotify-launch.sh` is called via `run-shell` on `Prefix+s`. It queries `list-panes -s` for a pane tagged with the tmux user option `@pane_role=spotify`. If found, it calls `select-pane` on it (idempotent). If not, it creates a new pane with `split-window -h -l 35%`, captures the pane ID via `-P -F "#{pane_id}"`, and sets `@pane_role spotify` on it. When spotatui exits (`q`), the pane closes and the user option disappears — no cleanup needed.
 
-`status-spotify.sh` calls `playerctl -p spotatui metadata --format '{{status}}|{{artist}} - {{title}}'` in a single invocation. Output is empty when playerctl is absent, spotatui is not running, or playback is stopped. The resulting string includes tmux color directives (`#[fg=color]`) which the status-format parser processes inline.
+`status-spotify.sh` is invoked with `#{client_width}` as its argument. It queries playerctl every 5 seconds (cache in `$XDG_RUNTIME_DIR/tmux-spotify-cache`) and reads from the cache on all intermediate ticks — no playerctl or API call per frame. For long track names it builds a looping string (`text + "   •   " + text`) and slices it with `cut -c(offset)-(offset+avail)`, where `offset = epoch % loop_length`. This advances 1 character per second with `status-interval 1`. `wc -m` and `cut -c` operate on Unicode characters (not bytes) in a UTF-8 locale, making the marquee safe for accented and non-Latin text.
 
 <br/>
 
@@ -327,7 +330,9 @@ Line 2 (`status-format[1]`) contains inline shell commands evaluated by tmux at 
 
 **Spotify pane width** — `split-window -h -l 35%` in `spotify-launch.sh`. Change `35%` to any value.
 
-**Status bar refresh rate** — `set -g status-interval` (default: `2`). Affects how often the track name updates.
+**Spotify segment width** — `FIXED_CHARS=82` in `status-spotify.sh` controls how much space is assumed for NET/VPN/RAM/LOAD + date/time. Adjust if your interface names or VPN labels are unusually long or short.
+
+**Status bar refresh rate** — `set -g status-interval` (currently `1`). The marquee advances 1 char/second at interval 1. Change to `2` to halve CPU use; the marquee will advance 2 chars per refresh instead.
 
 **Pane border** — `pane-border-format` in `tmux.conf`. The context script call can be replaced or extended with additional detectors.
 
